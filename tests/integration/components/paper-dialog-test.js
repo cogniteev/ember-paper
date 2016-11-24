@@ -252,3 +252,13 @@ test('opening gives focus', function(assert) {
   });
 
 });
+
+test('can specify dialog container classes', function(assert) {
+  this.render(hbs`
+    <div id="paper-wormhole"></div>
+    {{paper-dialog dialogContainerClasses='flex-50 my-dialog-container'}}
+  `);
+
+  assert.ok(this.$('.md-dialog-container').hasClass('flex-50'), 'has flex-50 css class');
+  assert.ok(this.$('.md-dialog-container').hasClass('my-dialog-container'), 'has my-dialog-container css class');
+});

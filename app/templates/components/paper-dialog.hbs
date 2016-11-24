@@ -5,7 +5,7 @@
     fixed=(unless parent true)
     class="md-dialog-backdrop"
     onClick=(action "outsideClicked")}}
-  {{#paper-dialog-container outsideClicked=(action "outsideClicked")}}
+  {{#paper-dialog-container class=(readonly dialogContainerClasses) outsideClicked=(action "outsideClicked")}}
     {{#paper-dialog-inner
       origin=origin
       defaultedParent=defaultedParent
