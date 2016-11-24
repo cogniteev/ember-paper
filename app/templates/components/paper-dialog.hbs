@@ -7,6 +7,7 @@
     onClick=(action "outsideClicked")}}
   {{#paper-dialog-container class=(readonly dialogContainerClasses) outsideClicked=(action "outsideClicked")}}
     {{#paper-dialog-inner
+      class=(readonly dialogClasses)
       origin=origin
       defaultedParent=defaultedParent
       defaultedOpenFrom=defaultedOpenFrom
