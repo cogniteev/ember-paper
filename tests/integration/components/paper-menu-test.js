@@ -1,60 +1,15 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
-import run from 'ember-runloop';
+import { clickTrigger } from '../../helpers/paper-basic-dropdown';
 import $ from 'jquery';
 
 moduleForComponent('paper-menu', 'Integration | Component | paper menu', {
   integration: true
 });
 
-function focus(el) {
-  if (!el) {
-    return;
-  }
-  let $el = $(el);
-  if ($el.is(':input, [contenteditable=true]')) {
-    let type = $el.prop('type');
-    if (type !== 'checkbox' && type !== 'radio' && type !== 'hidden') {
-      run(null, function() {
-        // Firefox does not trigger the `focusin` event if the window
-        // does not have focus. If the document doesn't have focus just
-        // use trigger('focusin') instead.
-
-        if (!document.hasFocus || document.hasFocus()) {
-          el.focus();
-        } else {
-          $el.trigger('focusin');
-        }
-      });
-    }
-  }
-}
-
-function nativeClick(selector, options = {}) {
-  let mousedown = new window.Event('mousedown', { bubbles: true, cancelable: true, view: window });
-  let mouseup = new window.Event('mouseup', { bubbles: true, cancelable: true, view: window });
-  let click = new window.Event('click', { bubbles: true, cancelable: true, view: window });
-  Object.keys(options).forEach((key) => {
-    mousedown[key] = options[key];
-    mouseup[key] = options[key];
-    click[key] = options[key];
-  });
-  let element = document.querySelector(selector);
-  run(() => element.dispatchEvent(mousedown));
-  focus(element);
-  run(() => element.dispatchEvent(mouseup));
-  run(() => element.dispatchEvent(click));
-}
-
-function clickTrigger(scope, options = {}) {
-  let selector = '.ember-basic-dropdown-trigger';
-  nativeClick(selector, options);
-}
-
 test('opens on click', function(assert) {
   assert.expect(1);
-  this.appRoot = document.querySelector('#ember-testing');
   this.render(hbs`{{#paper-menu as |menu|}}
     {{#menu.trigger}}
       {{#paper-button iconButton=true}}
@@ -69,7 +24,7 @@ test('opens on click', function(assert) {
   {{/paper-menu}}`);
 
   return wait().then(() => {
-    clickTrigger();
+    clickTrigger(document.querySelector('md-menu'));
 
     return wait().then(() => {
       let selectors = $('.md-open-menu-container');
@@ -83,7 +38,6 @@ test('opens on click', function(assert) {
 
 test('backdrop removed if menu closed', function(assert) {
   assert.expect(2);
-  this.appRoot = document.querySelector('#ember-testing');
   this.render(hbs`{{#paper-menu as |menu|}}
     {{#menu.trigger}}
       {{#paper-button iconButton=true}}
@@ -98,13 +52,13 @@ test('backdrop removed if menu closed', function(assert) {
   {{/paper-menu}}`);
 
   return wait().then(() => {
-    clickTrigger();
+    clickTrigger(document.querySelector('md-menu'));
 
     return wait().then(() => {
 
       let selectors = $('.md-open-menu-container');
       assert.ok(selectors.length, 'opened menu');
-      clickTrigger();
+      clickTrigger(document.querySelector('md-menu'));
       return wait().then(() => {
         let selector = $('.md-backdrop');
         assert.ok(!selector.length, 'backdrop removed');
@@ -115,7 +69,6 @@ test('backdrop removed if menu closed', function(assert) {
 
 test('backdrop removed if backdrop clicked', function(assert) {
   assert.expect(2);
-  this.appRoot = document.querySelector('#ember-testing');
   this.render(hbs`{{#paper-menu as |menu|}}
     {{#menu.trigger}}
       {{#paper-button iconButton=true}}
@@ -130,7 +83,7 @@ test('backdrop removed if backdrop clicked', function(assert) {
   {{/paper-menu}}`);
 
   return wait().then(() => {
-    clickTrigger();
+    clickTrigger(document.querySelector('md-menu'));
 
     return wait().then(() => {
 
@@ -147,7 +100,6 @@ test('backdrop removed if backdrop clicked', function(assert) {
 
 test('keydown changes focused element', function(assert) {
   assert.expect(3);
-  this.appRoot = document.querySelector('#ember-testing');
   this.render(hbs`{{#paper-menu as |menu|}}
     {{#menu.trigger}}
       {{#paper-button iconButton=true}}
@@ -165,7 +117,7 @@ test('keydown changes focused element', function(assert) {
   {{/paper-menu}}`);
 
   return wait().then(() => {
-    clickTrigger();
+    clickTrigger(document.querySelector('md-menu'));
 
     return wait().then(() => {
 
