@@ -177,6 +177,9 @@ export default Component.extend(FocusableMixin, ColorMixin, ChildMixin, Validati
         }
         this.setValue(this.get('value'));
       });
+      if (this.isDestroying || this.isDestroyed) {
+        return;
+      }
       this.growTextarea();
       let inputElement = this.element.querySelector('input');
       this.set('isNativeInvalid', inputElement && inputElement.validity && inputElement.validity.badInput);
