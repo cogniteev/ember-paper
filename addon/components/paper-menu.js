@@ -14,6 +14,13 @@ function clamp(pos, bounds, containerNode) {
   pos.left = Math.max(Math.min(pos.left, bounds.right - containerNode.offsetWidth), bounds.left);
 }
 
+function resetPosition(containerNode) {
+  containerNode.style.top = '';
+  containerNode.style.left = '';
+  containerNode.style.transform = '';
+  containerNode.style.transformOrigin = '';
+}
+
 function firstVisibleChild(node) {
   for (let i = 0; i < node.children.length; ++i) {
     if (window.getComputedStyle(node.children[i]).display !== 'none') {
@@ -57,6 +64,8 @@ export default BasicDropdownComponent.extend({
   }),
 
   calculatePosition(trigger, content, destination, { dropdown }) {
+    resetPosition(content);
+
     let containerNode = content;
     let openMenuNode = content.firstElementChild;
     let openMenuNodeRect = openMenuNode.getBoundingClientRect();
