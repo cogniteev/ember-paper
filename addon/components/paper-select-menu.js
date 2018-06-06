@@ -20,6 +20,13 @@ function clamp(min, n, max) {
   return Math.max(min, Math.min(n, max));
 }
 
+function resetPosition(containerNode) {
+  containerNode.style.top = '';
+  containerNode.style.left = '';
+  containerNode.style.transform = '';
+  containerNode.style.transformOrigin = '';
+}
+
 /**
  * @class PaperSelectMenu
  * @extends Ember.Component
@@ -30,6 +37,9 @@ export default PaperMenu.extend({
   triggerComponent: 'paper-select-menu-trigger',
 
   calculatePosition(trigger, content, destination, { dropdown }) {
+    if (!dropdown.didAnimateScale) {
+      resetPosition(content);
+    }
 
     let opts = {
       target: trigger,
