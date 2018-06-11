@@ -1,5 +1,6 @@
 import { mapBy } from '@ember/object/computed';
 import { run } from '@ember/runloop';
+import { assign } from '@ember/polyfills';
 import { observer, set, get, computed } from '@ember/object';
 import RSVP from 'rsvp';
 import { A as emberArray } from '@ember/array';
@@ -106,11 +107,11 @@ const VirtualRepeatComponent = VirtualEachComponent.extend({
   }).readOnly(),
 
   init() {
-    this.set('defaultAttrs', {
+    this._super(...arguments);
+    this.set('defaultAttrs', assign({}, this.get('defaultAttrs') || {}, {
       scrollTimeout: 30,
       height: 48
-    });
-    this._super(...arguments);
+    }));
   },
 
   didInsertElement() {
