@@ -23,13 +23,6 @@ const VirtualRepeatComponent = VirtualEachComponent.extend({
     }
   },
 
-  defaultAttrs: computed(function() {
-    return {
-      scrollTimeout: 30,
-      height: 48
-    };
-  }),
-
   size: computed('initialSize', 'items.[]', 'itemHeight', function() {
     let itemSize = this.get('itemHeight');
     let fullSize = this.get('items.length')  * itemSize;
@@ -111,6 +104,14 @@ const VirtualRepeatComponent = VirtualEachComponent.extend({
     let size = this.get('size');
     return Math.ceil(this.get('itemHeight') ? size / this.get('itemHeight') : 1) + EXTRA_ROW_PADDING;
   }).readOnly(),
+
+  init() {
+    this.set('defaultAttrs', {
+      scrollTimeout: 30,
+      height: 48
+    });
+    this._super(...arguments);
+  },
 
   didInsertElement() {
     this._super(...arguments);
