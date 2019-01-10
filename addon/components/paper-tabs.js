@@ -55,10 +55,6 @@ export default Component.extend(ParentMixin, ColorMixin, {
     return this.get('wrapperWidth') - this.get('inkBarLeft') - (this.get('_selectedTab.currentWidth') || 0);
   }),
 
-  tabsWidth: computed('childComponents.@each.width', function() {
-    return this.get('childComponents').reduce((prev, t) => prev + t.get('width'), 0);
-  }),
-
   shouldPaginate: false,
 
   shouldCenter: computed('shouldPaginate', 'center', function() {
