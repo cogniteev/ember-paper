@@ -44,7 +44,6 @@ export default Component.extend(ParentMixin, ColorMixin, {
   noInkBar: false,
   noInk: false,
   ariaLabel: null,
-  previousInkBarPosition: 0,
   stretch: 'sm',
 
   inkBarLeft: computed('_selectedTab.left', function() {
