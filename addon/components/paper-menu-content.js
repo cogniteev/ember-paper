@@ -98,11 +98,15 @@ export default ContentComponent.extend({
   },
 
   animateIn() {
-    this.dropdownElement.style.transform = this.get('transform');
-    nextTick().then(() => {
-      this.set('isActive', true);
-      this.set('transform', null);
-    });
+    if (this.dropdownElement) {
+      this.dropdownElement.style.transform = this.get('transform');
+      nextTick().then(() => {
+        if (!this.get('isDestroyed')) {
+          this.set('isActive', true);
+          this.set('transform', null);
+        }
+      });
+    }
   },
 
   animateOut(dropdownElement) {
