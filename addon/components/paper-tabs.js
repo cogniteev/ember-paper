@@ -61,6 +61,9 @@ export default Component.extend(ParentMixin, ColorMixin, {
 
     this.updateCanvasWidth = () => {
       join(() => {
+        if (this.isDestroying || this.isDestroyed) {
+          return;
+        }
         this.updateDimensions();
         this.updateStretchTabs();
       });
