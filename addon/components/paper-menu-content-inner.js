@@ -25,6 +25,9 @@ export default Component.extend(ParentMixin, {
 
   didInsertElement() {
     run.later(() => {
+      if (!this.element) {
+        return;
+      }
       let focusTarget = this.element.querySelector('.md-menu-focus-target');
       if (!focusTarget) {
         focusTarget = this.get('enabledMenuItems.firstObject.element.firstElementChild');
